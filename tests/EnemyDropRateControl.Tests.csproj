@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="../src/EnemyDropRateControl.Local.props" Condition="'$(GameDirectory)' == '' and Exists('../src/EnemyDropRateControl.Local.props')"/>
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <IsPackable>false</IsPackable>
+        <IsTestProject>true</IsTestProject>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0"/>
+        <PackageReference Include="MSTest.TestAdapter" Version="3.1.1"/>
+        <PackageReference Include="MSTest.TestFramework" Version="3.1.1"/>
+        <Compile Include="../src/DropRules.cs" Link="DropRules.cs"/>
+        <Compile Include="../src/MultiplierText.cs" Link="MultiplierText.cs"/>
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(GameDirectory)' != ''">
+        <Reference Include="BepInEx.Core" HintPath="$(GameDirectory)/BepInEx/core/BepInEx.Core.dll"/>
+        <Compile Include="../src/ModSettings.cs" Link="ModSettings.cs"/>
+    </ItemGroup>
+    <ItemGroup Condition="'$(GameDirectory)' == ''">
+        <Compile Remove="ConfigFileTests.cs"/>
+    </ItemGroup>
+</Project>

@@ -1,0 +1,6 @@
+<Project>
+    <PropertyGroup>
+        Set this to the root directory of your local game installation.
+        <GameDirectory>C:\Games\FINAL FANTASY IV PR</GameDirectory>
+    </PropertyGroup>
+</Project>

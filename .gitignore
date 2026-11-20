@@ -1,0 +1,14 @@
+# IDEs and editor state
+.idea/
+
+# Build output
+bin/
+obj/
+TestResults/
+
+# Local machine configuration
+EnemyDropRateControl.Local.props
+
+# Local and release documentation
+docs/local/
+docs/release/

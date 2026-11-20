@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="EnemyDropRateControl.Local.props" Condition="'$(GameDirectory)' == '' and Exists('EnemyDropRateControl.Local.props')"/>
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <Version>1.0.0</Version>
+        <PathMap Condition="'$(Configuration)' == 'Release' and '$(PathMap)' == ''">$(MSBuildProjectDirectory.Replace(',', ',,').Replace('=', '=='))=/_/src</PathMap>
+        <BepInExCore>$(GameDirectory)/BepInEx/core</BepInExCore>
+        <BepInExInterop>$(GameDirectory)/BepInEx/interop</BepInExInterop>
+        <RootNamespace>EnemyDropRateControl</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Reference Include="0Harmony" HintPath="$(BepInExCore)/0Harmony.dll" Private="false"/>
+        <Reference Include="BepInEx.Core" HintPath="$(BepInExCore)/BepInEx.Core.dll" Private="false"/>
+        <Reference Include="BepInEx.Unity.IL2CPP" HintPath="$(BepInExCore)/BepInEx.Unity.IL2CPP.dll" Private="false"/>
+        <Reference Include="Il2CppInterop.Runtime" HintPath="$(BepInExCore)/Il2CppInterop.Runtime.dll" Private="false"/>
+        <Reference Include="Assembly-CSharp" HintPath="$(BepInExInterop)/Assembly-CSharp.dll" Private="false"/>
+        <Reference Include="Il2Cppmscorlib" HintPath="$(BepInExInterop)/Il2Cppmscorlib.dll" Private="false"/>
+        <Reference Include="UnityEngine.CoreModule" HintPath="$(BepInExInterop)/UnityEngine.CoreModule.dll" Private="false"/>
+    </ItemGroup>
+
+    <Target Name="ValidateGameDirectory" BeforeTargets="ResolveAssemblyReferences">
+        <Error Condition="'$(GameDirectory)' == ''"
+               Text="Set GameDirectory in src/EnemyDropRateControl.Local.props or pass -p:GameDirectory on the command line. See docs/development.md."/>
+        <Error Condition="!Exists('$(BepInExCore)/BepInEx.Unity.IL2CPP.dll')"
+               Text="BepInEx 6 for Unity IL2CPP was not found under GameDirectory. Check the installation and the game path."/>
+        <Error Condition="!Exists('$(BepInExInterop)/Assembly-CSharp.dll')"
+               Text="The BepInEx interop assemblies are missing. Start the game with BepInEx once to generate them."/>
+    </Target>
+</Project>
